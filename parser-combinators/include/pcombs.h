@@ -38,6 +38,8 @@ namespace pcombs
 	template <typename T>
 	struct Parser
 	{
+		Parser() { }
+
 		template <typename Fn>
 		Parser(Fn fn) : m_fn(fn) { }
 
@@ -161,11 +163,58 @@ namespace pcombs
 		};
 	}
 
+	// this is a special case of & that concatenates strings.
+	inline Parser<std::string> operator + (Parser<std::string> pa, Parser<std::string> pb)
+	{
+		using R = std::string;
+		return [pa = std::move(pa), pb = std::move(pb)](str_view input) -> ParserResult<R> {
+			auto a = pa.run(input);
+			if(!a) return Err<R>(a.error());
+
+			auto b = pb.run(a->second);
+			if(!b) return Err<R>(b.error());
+
+			return Ok<R>(a->first + b->first, b->second);
+		};
+	}
+
+	// this is a special case of ~ that returns empty string instead of optional.
+	inline Parser<std::string> operator- (Parser<std::string> p)
+	{
+		using R = std::string;
+		return [p = std::move(p)](str_view input) -> ParserResult<R> {
+			auto x = p.run(input);
+			if(!x)  return Ok<R>("", input);
+			else    return Ok<R>(x->first, x->second);
+		};
+	}
+
+
+	// template <typename T, typename R, typename Fn>
+	// Parser<R> map(Parser<T> p, Fn&& fn)
+
+	template <typename T, typename R>
+	Parser<R> map(Parser<T> p, std::function<R (T)> fn)
+	{
+		return [p = std::move(p), fn = std::move(fn)](str_view input) -> ParserResult<R> {
+			auto x = p.run(input);
+			if(!x) return Err<R>(x.error());
+
+			return Ok(fn(x->first), x->second);
+		};
+	}
+
+	template <typename T>
+	Parser<T> ref(Parser<T>& p)
+	{
+		return [&p](str_view input) -> ParserResult<T> {
+			return p.run(input);
+		};
+	}
 
 
 
-
-	Parser<std::string> str(str_view s)
+	inline Parser<std::string> str(str_view s)
 	{
 		return [s](str_view input) -> ParserResult<std::string> {
 			if(input.find(s) == 0)  return Ok(std::string(s), input.drop(s.size()));
@@ -173,7 +222,7 @@ namespace pcombs
 		};
 	}
 
-	Parser<std::string> any_char()
+	inline Parser<std::string> any_char()
 	{
 		using R = std::string;
 		return [](str_view input) -> ParserResult<R> {
@@ -205,9 +254,14 @@ namespace pcombs
 		return take_while([pred](char c) -> bool { return !pred(c); });
 	}
 
-	Parser<std::string> whitespace()
+	inline Parser<std::string> whitespace()
 	{
 		return take_while([](char c) -> bool { return c == ' ' || c == '\t'; });
+	}
+
+	inline Parser<std::string> newline()
+	{
+		return str("\n") | str("\r\n");
 	}
 }
 

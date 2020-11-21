@@ -1,0 +1,138 @@
+{
+	"markov": {
+		"strip_pings": true,
+		"max_retries": 5,
+		"min_length": 7
+	},
+	"stuff": {
+		"decimal": 3.14159265358979323846264338327950,
+		"decimal_2": 6.283185307179586
+	},
+	"console": {
+		"enabled": false,
+		"port": 4001,
+		"hostname": "0.0.0.0"
+	},
+	"twitch": {
+		"username": "ikurabowl",
+		"bttv_ffz_autorefresh_interval": 7200,
+		"oauth_token": "file:secrets/twitch_oauth",
+		"client_id": "file:secrets/twitch_clientid",
+		"owner": "zhiayang",
+		"ignored_users": [
+			"tsunbot",
+			"mrbotka",
+			"shikurabot",
+			"herrhotzenbot"
+		],
+		"channels": [
+			{
+				"name": "zhiayang",
+				"lurk": false,
+				"mod": true,
+				"command_prefix": [ "'", "!" ],
+				"respond_to_pings": true,
+				"silent_interp_errors": false,
+				"run_message_handlers": true,
+				"bttv_emotes": true,
+				"ffz_emotes": true
+			},
+			{
+				"name": "nuffleee",
+				"lurk": false,
+				"command_prefix": "'",
+				"respond_to_pings": false,
+				"silent_interp_errors": true,
+				"run_message_handlers": true,
+				"bttv_emotes": true,
+				"ffz_emotes": true
+			},
+			{
+				"name": "r3x1m",
+				"lurk": false,
+				"command_prefix": "'",
+				"respond_to_pings": true,
+				"run_message_handlers": true
+			},
+			{
+				"name": "tsoding",
+				"lurk": false,
+				"command_prefix": "'",
+				"respond_to_pings": false,
+				"silent_interp_errors": true,
+				"run_message_handlers": true,
+				"bttv_emotes": true,
+				"ffz_emotes": true
+			},
+			{
+				"name": "herrhotzenplotz",
+				"lurk": false,
+				"command_prefix": "'",
+				"bttv_emotes": true,
+				"ffz_emotes": true
+			}
+		]
+	},
+	"discord": {
+		"username": "ikurabowl",
+		"id": "711767244174000208",
+		"owner": "252423542640082945",
+		"oauth_token": "file:secrets/discord_oauth",
+		"ignored_users": [
+			"545634742364667935"
+		],
+		"guilds": [
+			{
+				"id": "711765270506635275",
+				"lurk": false,
+				"command_prefix": "!",
+				"silent_interp_errors": false,
+				"run_message_handlers": true,
+				"use_replies": false
+			},
+			{
+				"id": "542264318465671168",
+				"lurk": false,
+				"command_prefix": "'",
+				"silent_interp_errors": false,
+				"run_message_handlers": false,
+				"use_replies": false
+			}
+		]
+	},
+	"irc": {
+		"servers": [
+			{
+				"name": "freenode",
+				"hostname": "chat.freenode.net",
+				"port": 6697,
+				"sasl": true,
+				"ssl": true,
+				"nickname": "ikurabowl",
+				"username": "ikurabowl",
+				"password": "file:secrets/irc_password",
+				"owner": "zhiayang",
+				"ignored_users": [
+				],
+				"channels": [
+					{
+						"name": "#tsoding",
+						"lurk": false,
+						"command_prefix": "'",
+						"respond_to_pings": true,
+						"silent_interp_errors": false,
+						"run_message_handlers": true
+					},
+					{
+						"name": "#herrhotzenplotz",
+						"lurk": false,
+						"command_prefix": "'",
+						"respond_to_pings": true,
+						"silent_interp_errors": false,
+						"run_message_handlers": true
+					}
+				]
+			}
+		]
+	}
+}

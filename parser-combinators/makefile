@@ -25,14 +25,22 @@ INCLUDES    = -Iinclude
 
 .DEFAULT_GOAL = all
 
-.PHONY: all
+.PHONY: all, ini, json
 .PRECIOUS: $(PRECOMP_GCH)
 
 tests/ini/test_ini: tests/ini/test_ini.cpp $(shell find include -iname "*.h")
 	@$(CXX) $(CXXFLAGS) -g $(WARNINGS) $(DEFINES) $(INCLUDES) -o $@ $<
 
-all: tests/ini/test_ini
+tests/json/test_json: tests/json/test_json.cpp $(shell find include -iname "*.h")
+	@$(CXX) $(CXXFLAGS) -g $(WARNINGS) $(DEFINES) $(INCLUDES) -o $@ $<
+
+ini: tests/ini/test_ini
 	@tests/ini/test_ini tests/ini/test.ini
+
+json: tests/json/test_json
+	@tests/json/test_json tests/json/test.json
+
+all: ini json
 
 clean:
 	@find . -name "*.o" -delete

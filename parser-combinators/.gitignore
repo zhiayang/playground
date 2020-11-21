@@ -1,1 +1,2 @@
 tests/ini/test_ini
+tests/json/test_json
